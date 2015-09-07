@@ -180,6 +180,13 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
     }
 }
 
+- (void) load
+{
+    if ([self.delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
+        [self.delegate slideShow:self targetImageView:_topImageView direction:KASlideShowDirectionCurrent];
+    }
+}
+
 - (void) start
 {
     _doStop = NO;
@@ -188,19 +195,25 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 
 - (void) next
 {
-    if(! _isAnimating && ([self.images count] >1 || self.dataSource)) {
+    if(! _isAnimating) {
         
         if ([self.delegate respondsToSelector:@selector(kaSlideShowWillShowNext:)]) [self.delegate kaSlideShowWillShowNext:self];
         
         // Next Image
         if (self.dataSource) {
-            _topImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionTop];
-            _bottomImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionBottom];
+            if ([self.dataSource respondsToSelector:@selector(slideShow:imageForPosition:)]) {
+                _topImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionTop];
+                _bottomImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionBottom];
+            }
         } else {
-            NSUInteger nextIndex = (_currentIndex+1)%[self.images count];
-            _topImageView.image = self.images[_currentIndex];
-            _bottomImageView.image = self.images[nextIndex];
-            _currentIndex = nextIndex;
+            if ([self.delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
+                [self.delegate slideShow:self targetImageView:_bottomImageView direction:KASlideShowDirectionNext];
+            } else {
+                NSUInteger nextIndex = (_currentIndex+1)%[self.images count];
+                _topImageView.image = self.images[_currentIndex];
+                _bottomImageView.image = self.images[nextIndex];
+                _currentIndex = nextIndex;
+            }
         }
         
         // Animate
@@ -227,24 +240,30 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 
 - (void) previous
 {
-    if(! _isAnimating && ([self.images count] >1 || self.dataSource)){
+    if(! _isAnimating) {
         
         if ([self.delegate respondsToSelector:@selector(kaSlideShowWillShowPrevious:)]) [self.delegate kaSlideShowWillShowPrevious:self];
         
         // Previous image
         if (self.dataSource) {
-            _topImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionTop];
-            _bottomImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionBottom];
-        } else {
-            NSUInteger prevIndex;
-            if(_currentIndex == 0){
-                prevIndex = [self.images count] - 1;
-            }else{
-                prevIndex = (_currentIndex-1)%[self.images count];
+            if ([self.dataSource respondsToSelector:@selector(slideShow:imageForPosition:)]) {
+                _topImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionTop];
+                _bottomImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionBottom];
             }
-            _topImageView.image = self.images[_currentIndex];
-            _bottomImageView.image = self.images[prevIndex];
-            _currentIndex = prevIndex;
+        } else {
+            if ([self.delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
+                [self.delegate slideShow:self targetImageView:_bottomImageView direction:KASlideShowDirectionPrev];
+            } else {
+                NSUInteger prevIndex;
+                if(_currentIndex == 0){
+                    prevIndex = [self.images count] - 1;
+                }else{
+                    prevIndex = (_currentIndex-1)%[self.images count];
+                }
+                _topImageView.image = self.images[_currentIndex];
+                _bottomImageView.image = self.images[prevIndex];
+                _currentIndex = prevIndex;
+            }
         }
         
         // Animate

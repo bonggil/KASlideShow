@@ -33,6 +33,12 @@ typedef NS_ENUM(NSUInteger, KASlideShowPosition) {
     KASlideShowPositionBottom
 };
 
+typedef NS_ENUM(NSUInteger, KASlideShowDirection) {
+    KASlideShowDirectionNext,
+    KASlideShowDirectionPrev,
+    KASlideShowDirectionCurrent
+};
+
 typedef NS_ENUM(NSUInteger, KASlideShowState) {
     KASlideShowStateStopped,
     KASlideShowStateStarted
@@ -45,9 +51,12 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 - (void) kaSlideShowDidShowPrevious:(KASlideShow *) slideShow;
 - (void) kaSlideShowWillShowNext:(KASlideShow *) slideShow;
 - (void) kaSlideShowWillShowPrevious:(KASlideShow *) slideShow;
+
+- (void)slideShow:(KASlideShow *)slideShow targetImageView:(UIImageView *)imageView direction:(KASlideShowDirection)direction;
 @end
 
 @protocol KASlideShowDataSource <NSObject>
+@optional
 - (UIImage *)slideShow:(KASlideShow *)slideShow imageForPosition:(KASlideShowPosition)position;
 @end
 
@@ -72,6 +81,7 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 - (void) removeGestures;
 - (void) addImage:(UIImage *) image;
 
+- (void) load;
 - (void) start;
 - (void) stop;
 - (void) previous;
