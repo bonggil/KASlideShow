@@ -22,12 +22,6 @@ typedef NS_ENUM(NSInteger, KASlideShowTransitionType) {
     KASlideShowTransitionSlide
 };
 
-typedef NS_ENUM(NSInteger, KASlideShowGestureType) {
-    KASlideShowGestureTap,
-    KASlideShowGestureSwipe,
-    KASlideShowGestureAll
-};
-
 typedef NS_ENUM(NSUInteger, KASlideShowPosition) {
     KASlideShowPositionTop,
     KASlideShowPositionBottom
@@ -52,7 +46,9 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 - (void) kaSlideShowWillShowNext:(KASlideShow *) slideShow;
 - (void) kaSlideShowWillShowPrevious:(KASlideShow *) slideShow;
 
-- (void)slideShow:(KASlideShow *)slideShow targetImageView:(UIImageView *)imageView direction:(KASlideShowDirection)direction;
+- (void) slideShow:(KASlideShow *)slideShow targetImageView:(UIImageView *)imageView direction:(KASlideShowDirection)direction;
+- (void) slideShow:(KASlideShow *)slideShow didTouchBannerWithTargetImageView:(UIImageView *)imageView;
+
 @end
 
 @protocol KASlideShowDataSource <NSObject>
@@ -68,17 +64,17 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 @property  float delay;
 @property  float transitionDuration;
 @property  (readonly, nonatomic) NSUInteger currentIndex;
-@property  (atomic) KASlideShowTransitionType transitionType;
+@property  (nonatomic) KASlideShowTransitionType transitionType;
 @property  (atomic) UIViewContentMode imagesContentMode;
 @property  (strong,nonatomic) NSMutableArray * images;
 @property  (readonly, nonatomic) KASlideShowState state;
+@property  (nonatomic, assign) BOOL enableSwipe;
+@property  (nonatomic, assign) BOOL enableTap;
 
 - (void) addImagesFromResources:(NSArray *) names;
 - (void) emptyAndAddImagesFromResources:(NSArray *)names;
 - (void) emptyAndAddImages:(NSArray *)images;
 - (void) setImagesDataSource:(NSMutableArray *)array;
-- (void) addGesture:(KASlideShowGestureType)gestureType;
-- (void) removeGestures;
 - (void) addImage:(UIImage *) image;
 
 - (void) load;

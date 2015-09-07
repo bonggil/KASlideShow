@@ -36,7 +36,6 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 @synthesize delegate;
 @synthesize delay;
 @synthesize transitionDuration;
-@synthesize transitionType;
 @synthesize images;
 
 - (void)awakeFromNib
@@ -85,7 +84,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
     delay = 3;
     
     transitionDuration = 1;
-    transitionType = KASlideShowTransitionFade;
+    _transitionType = KASlideShowTransitionFade;
     _doStop = YES;
     _isAnimating = NO;
     
@@ -116,28 +115,42 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
     return _topImageView.contentMode;
 }
 
-- (void) addGesture:(KASlideShowGestureType)gestureType
+- (void)setEnableSwipe:(BOOL)enableSwipe
 {
-    switch (gestureType)
-    {
-        case KASlideShowGestureTap:
-            [self addGestureTap];
-            break;
-        case KASlideShowGestureSwipe:
-            [self addGestureSwipe];
-            break;
-        case KASlideShowGestureAll:
-            [self addGestureTap];
-            [self addGestureSwipe];
-            break;
-        default:
-            break;
+    if (_enableSwipe == enableSwipe) {
+        return;
+    }
+    
+    _enableSwipe = enableSwipe;
+    if (_enableSwipe) {
+        [self addGestureSwipe];
+    } else {
+        [self removeGestureSwipe];
     }
 }
 
-- (void) removeGestures
+- (void)setEnableTap:(BOOL)enableTap
 {
-    self.gestureRecognizers = nil;
+    if (_enableTap == enableTap) {
+        return;
+    }
+    
+    _enableTap = enableTap;
+    if (_enableTap) {
+        [self addGestureTap];
+    } else {
+        [self removeGestureTap];
+    }
+}
+
+- (void)setTransitionType:(KASlideShowTransitionType)transitionType
+{
+    if (self.transitionType == transitionType) {
+        return;
+    }
+
+    _transitionType = transitionType;
+    self.enableSwipe = (self.transitionType == KASlideShowTransitionSlide);
 }
 
 - (void) addImagesFromResources:(NSArray *) names
@@ -171,11 +184,11 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
     [self addImagesFromResources:names];
 }
 
-- (void) emptyAndAddImages:(NSArray *)images
+- (void) emptyAndAddImages:(NSArray *)imgs
 {
     [self.images removeAllObjects];
     _currentIndex = 0;
-    for (UIImage *image in images){
+    for (UIImage *image in imgs){
         [self addImage:image];
     }
 }
@@ -217,7 +230,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
         }
         
         // Animate
-        switch (transitionType) {
+        switch (_transitionType) {
             case KASlideShowTransitionFade:
                 [self animateFade];
                 break;
@@ -267,7 +280,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
         }
         
         // Animate
-        switch (transitionType) {
+        switch (_transitionType) {
             case KASlideShowTransitionFade:
                 [self animateFade];
                 break;
@@ -361,9 +374,13 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 #pragma mark - Gesture Recognizers initializers
 - (void) addGestureTap
 {
-    UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    singleTapGestureRecognizer.numberOfTapsRequired = 1;
-    [self addGestureRecognizer:singleTapGestureRecognizer];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    [self addGestureRecognizer:tapGestureRecognizer];
+}
+
+- (void) removeGestureTap
+{
+    [self removeGestureWithGestureClass:[UITapGestureRecognizer class]];
 }
 
 - (void) addGestureSwipe
@@ -378,16 +395,25 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
     [self addGestureRecognizer:swipeRightGestureRecognizer];
 }
 
+- (void) removeGestureSwipe
+{
+    [self removeGestureWithGestureClass:[UISwipeGestureRecognizer class]];
+}
+
+- (void) removeGestureWithGestureClass:(Class)gestureClass
+{
+    for (UIGestureRecognizer *gesture in self.gestureRecognizers) {
+        if ([gesture isKindOfClass:gestureClass]) {
+            [self removeGestureRecognizer:gesture];
+        }
+    }
+}
+
 #pragma mark - Gesture Recognizers handling
 - (void)handleSingleTap:(id)sender
 {
-    UITapGestureRecognizer *gesture = (UITapGestureRecognizer *)sender;
-    CGPoint pointTouched = [gesture locationInView:self.topImageView];
-    
-    if (pointTouched.x <= self.topImageView.center.x){
-        [self previous];
-    }else {
-        [self next];
+    if ([self.delegate respondsToSelector:@selector(slideShow:didTouchBannerWithTargetImageView:)]) {
+        [self.delegate slideShow:self didTouchBannerWithTargetImageView:_topImageView];
     }
 }
 
