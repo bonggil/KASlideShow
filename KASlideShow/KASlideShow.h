@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 - (void) kaSlideShowWillShowPrevious:(KASlideShow *) slideShow;
 
 - (void) slideShow:(KASlideShow *)slideShow targetImageView:(UIImageView *)imageView direction:(KASlideShowDirection)direction;
+- (void) slideShow:(KASlideShow *)slideShow completeImageView:(UIImageView *)imageView;
 - (void) slideShow:(KASlideShow *)slideShow didTouchBannerWithTargetImageView:(UIImageView *)imageView;
 
 @end

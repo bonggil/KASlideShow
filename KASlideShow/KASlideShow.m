@@ -316,6 +316,10 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                          
                          _isAnimating = NO;
                          
+                         if ([delegate respondsToSelector:@selector(slideShow:completeImageView:)]) {
+                             [delegate slideShow:self completeImageView:_topImageView];
+                         }
+                         
                          if(! _doStop){
                              [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(next) object:nil];
                              [self performSelector:@selector(next) withObject:nil afterDelay:delay];
@@ -362,6 +366,10 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                                   _topImageView.transform = CGAffineTransformMakeTranslation(0, 0);
                                   
                                   _isAnimating = NO;
+                                  
+                                  if ([delegate respondsToSelector:@selector(slideShow:completeImageView:)]) {
+                                      [delegate slideShow:self completeImageView:_topImageView];
+                                  }
                                   
                                   if(! _doStop){
                                       [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(next) object:nil];
