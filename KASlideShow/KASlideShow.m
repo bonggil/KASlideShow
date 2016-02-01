@@ -195,8 +195,8 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 
 - (void) load
 {
-    if ([self.delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
-        [self.delegate slideShow:self targetImageView:_topImageView direction:KASlideShowDirectionCurrent];
+    if ([delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
+        [delegate slideShow:self targetImageView:_topImageView direction:KASlideShowDirectionCurrent];
     }
 }
 
@@ -210,7 +210,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 {
     if(! _isAnimating) {
         
-        if ([self.delegate respondsToSelector:@selector(kaSlideShowWillShowNext:)]) [self.delegate kaSlideShowWillShowNext:self];
+        if ([delegate respondsToSelector:@selector(kaSlideShowWillShowNext:)]) [delegate kaSlideShowWillShowNext:self];
         
         // Next Image
         if (self.dataSource) {
@@ -219,8 +219,8 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                 _bottomImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionBottom];
             }
         } else {
-            if ([self.delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
-                [self.delegate slideShow:self targetImageView:_bottomImageView direction:KASlideShowDirectionNext];
+            if ([delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
+                [delegate slideShow:self targetImageView:_bottomImageView direction:KASlideShowDirectionNext];
             } else {
                 NSUInteger nextIndex = (_currentIndex+1)%[self.images count];
                 _topImageView.image = self.images[_currentIndex];
@@ -255,7 +255,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 {
     if(! _isAnimating) {
         
-        if ([self.delegate respondsToSelector:@selector(kaSlideShowWillShowPrevious:)]) [self.delegate kaSlideShowWillShowPrevious:self];
+        if ([delegate respondsToSelector:@selector(kaSlideShowWillShowPrevious:)]) [delegate kaSlideShowWillShowPrevious:self];
         
         // Previous image
         if (self.dataSource) {
@@ -264,8 +264,8 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                 _bottomImageView.image = [self.dataSource slideShow:self imageForPosition:KASlideShowPositionBottom];
             }
         } else {
-            if ([self.delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
-                [self.delegate slideShow:self targetImageView:_bottomImageView direction:KASlideShowDirectionPrev];
+            if ([delegate respondsToSelector:@selector(slideShow:targetImageView:direction:)]) {
+                [delegate slideShow:self targetImageView:_bottomImageView direction:KASlideShowDirectionPrev];
             } else {
                 NSUInteger prevIndex;
                 if(_currentIndex == 0){
@@ -431,8 +431,8 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 #pragma mark - Gesture Recognizers handling
 - (void)handleSingleTap:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(slideShow:didTouchBannerWithTargetImageView:)]) {
-        [self.delegate slideShow:self didTouchBannerWithTargetImageView:_topImageView];
+    if ([delegate respondsToSelector:@selector(slideShow:didTouchBannerWithTargetImageView:)]) {
+        [delegate slideShow:self didTouchBannerWithTargetImageView:_topImageView];
     }
 }
 
