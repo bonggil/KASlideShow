@@ -14,4 +14,5 @@ Pod::Spec.new do |s|
   s.source_files = 'KASlideShow/*.{h,m}'
   s.requires_arc =  true
   s.framework = 'Foundation'
+  s.ios.deployment_target = '7.0'
 end
