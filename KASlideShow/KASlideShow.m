@@ -38,17 +38,21 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 @synthesize transitionDuration;
 @synthesize images;
 
-- (void)awakeFromNib
-{
-    [self setDefaultValues];
-}
-
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         [self setDefaultValues];
     }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder]) {
+        [self setDefaultValues];
+    }
+    
     return self;
 }
 
