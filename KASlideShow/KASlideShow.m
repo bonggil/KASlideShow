@@ -315,13 +315,13 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                      }
                      completion:^(BOOL finished){
                          
-                         self->_topImageView.image = _bottomImageView.image;
+                         self->_topImageView.image = self->_bottomImageView.image;
                          self->_topImageView.alpha = 1;
                          
                          self->_isAnimating = NO;
                          
                          if ([self->delegate respondsToSelector:@selector(slideShow:completeImageView:)]) {
-                             [self->delegate slideShow:self completeImageView:_topImageView];
+                             [self->delegate slideShow:self completeImageView:self->_topImageView];
                          }
                          
                          if(! self->_doStop){
