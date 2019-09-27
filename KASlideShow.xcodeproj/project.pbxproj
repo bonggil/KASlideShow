@@ -31,7 +31,6 @@
 		82AA9B5816B00F9700B95D4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82AA9B5A16B00F9700B95D4E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		82AA9B6016B00F9700B95D4E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		82AA9B7216B00F9700B95D4E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		82AA9B8216B011A600B95D4E /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = KASlideShow/Demo/AppDelegate.h; sourceTree = "<group>"; };
 		82AA9B8316B011A600B95D4E /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = KASlideShow/Demo/AppDelegate.m; sourceTree = "<group>"; };
 		82AA9B8416B011A600B95D4E /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = KASlideShow/Demo/ViewController.h; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		82AA9BA216B012DD00B95D4E /* test_1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = test_1.jpeg; path = KASlideShow/Demo/test_1.jpeg; sourceTree = "<group>"; };
 		82AA9BA316B012DD00B95D4E /* test_2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = test_2.jpeg; path = KASlideShow/Demo/test_2.jpeg; sourceTree = "<group>"; };
 		82AA9BA416B012DD00B95D4E /* test_3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = test_3.jpeg; path = KASlideShow/Demo/test_3.jpeg; sourceTree = "<group>"; };
+		8A7A923C233DA35D00A20343 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,10 +178,11 @@
 			};
 			buildConfigurationList = 82AA9B4C16B00F9700B95D4E /* Build configuration list for PBXProject "KASlideShow" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 82AA9B4716B00F9700B95D4E;
 			productRefGroup = 82AA9B5316B00F9700B95D4E /* Products */;
@@ -238,7 +239,7 @@
 		82AA9B7116B00F9700B95D4E /* ViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				82AA9B7216B00F9700B95D4E /* en */,
+				8A7A923C233DA35D00A20343 /* Base */,
 			);
 			name = ViewController.xib;
 			path = KASlideShow;
@@ -269,7 +270,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -290,7 +291,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
